@@ -17,13 +17,6 @@ function CreateReaservation() {
   const [formData, setFormData] = useState({ ...initialFormData });
   const [reservationsError, setReservationsError] = useState(null);
 
-  const changeHandler = ({ target }) => {
-    if (target.name === "people" && target.value <= 0) {
-      target.value = "";
-    }
-    setFormData({ ...formData, [target.name]: target.value });
-  };
-
   const submitHandler = (event) => {
     event.preventDefault();
     const abortController = new AbortController();
@@ -44,7 +37,7 @@ function CreateReaservation() {
       <h2>Create new reservation</h2>
       <ErrorAlert error={reservationsError} />
 
-      <ReservationForm formData={formData} changeHandler={changeHandler} />
+      <ReservationForm formData={formData} setFormData={setFormData} />
 
       <button
         type="submit"
@@ -58,7 +51,6 @@ function CreateReaservation() {
         className="btn btn-primary mx-2"
         onClick={submitHandler}
       >
-      
         Submit
       </button>
     </div>

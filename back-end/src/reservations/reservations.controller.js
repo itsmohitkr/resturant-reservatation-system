@@ -86,7 +86,6 @@ function isValidPeople(req, res, next) {
 
 async function isReservationExist(req, res, next) {
   const { reservation_id={} } = req.params;
-  console.log(req.body.data);
   const reservationFound = await service.read(reservation_id);
   if (reservationFound) {
     res.locals.reservationFound = reservationFound;
@@ -118,8 +117,6 @@ function read(req, res, next) {
     .slice(0, 10)
     .replace("T", " ");
   data.reservation_date=nextDateFormatted
-
-  console.log(data.reservation_date);
   res.json({ data });
 }
 

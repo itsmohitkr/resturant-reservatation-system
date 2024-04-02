@@ -14,9 +14,8 @@ function SeatReservation() {
     const abortController = new AbortController();
     async function loadDashboard() {
       try {
-        const tableDate = await listTable(abortController.signal);
-        setTableError(null);
-        setTables(tableDate);
+        const tableData = await listTable(abortController.signal);
+        setTables(tableData);
       } catch (error) {
         if (error.name === "AbortError") {
           console.log("Aborted");
@@ -29,15 +28,14 @@ function SeatReservation() {
     return () => abortController.abort();
   }, []);
 
-const submitHandler = async (event) => {
-  try {
-    
-    await assignReservationToTable(tableId, reservation_id);
-    history.push("/");
-  } catch (error) {
-    setTableError(error);
-  }
-};
+  const submitHandler = async (event) => {
+    try {
+      await assignReservationToTable(tableId, reservation_id);
+      history.push("/");
+    } catch (error) {
+      setTableError(error);
+    }
+  };
 
   const handleChange = ({ target }) => {
     setTableId(target.value);
@@ -55,32 +53,35 @@ const submitHandler = async (event) => {
       <div>
         <h2>Select Table</h2>
         <ErrorAlert error={tableError} />
-
-        <select
-          className="form-select form-select-lg"
-          aria-label=".form-select-lg example"
-          name="table_id"
-          onChange={handleChange}
-          value={tableId}
-        >
-          <option value="">Select Table</option>
-          {allTable}
-        </select>
-
-        <button
-          type="submit"
-          className="btn btn-secondary mx-5"
-          onClick={() => history.goBack()}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={submitHandler}
-        >
-          Submit
-        </button>
+        <div className="row">
+          <div class="form-group col-md-4">
+            <select
+              class="form-control"
+              name="table_id"
+              onChange={handleChange}
+              value={tableId}
+            >
+              <option value="">Select Table</option>
+              {allTable}
+            </select>
+          </div>
+          <div className="col-md-3">
+            <button
+              type="submit"
+              className="btn btn-secondary"
+              onClick={() => history.goBack()}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary mx-3"
+              onClick={submitHandler}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
       </div>
     );
   } else {

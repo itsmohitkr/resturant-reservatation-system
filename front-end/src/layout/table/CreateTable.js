@@ -15,9 +15,6 @@ function CreateTable() {
   const [reservationsError, setReservationsError] = useState(null);
 
   const changeHandler = ({ target }) => {
-    if (target.name === "capacity" && target.value<=0) {
-      target.value = 0;
-    }
     setFormData({ ...formData, [target.name]: target.value });
   };
 
@@ -60,6 +57,7 @@ function CreateTable() {
             <input
               type="number"
               className="form-control"
+              min="1"
               id="capacity"
               name="capacity"
               placeholder="capacity"

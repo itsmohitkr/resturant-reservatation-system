@@ -65,7 +65,7 @@ function ShowAllReservation({ reservations }) {
       );
     });
     return (
-      <table className="table">
+      <table className="table mt-5">
         <thead>
           <tr>
             <th scope="col">S.No</th>

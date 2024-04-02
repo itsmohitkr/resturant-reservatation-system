@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { listReservationsByMobileNumber } from "../../utils/api";
 import ShowAllReservation from "./ShowAllReservation";
 import ErrorAlert from "../ErrorAlert";
@@ -36,6 +36,14 @@ function SearchReservation() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setReservationsError(null);
+    }, 3000);
+
+    return () => clearTimeout(timeoutId);
+  },[reservationsError])
 
   return (
     <div>
