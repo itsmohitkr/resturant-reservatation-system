@@ -5,7 +5,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Thinkful-Ed/starter-restaurant-reservation"
+    "url": "https://github.com/itsmohitkr/resturant-reservatation-system"
   },
   "scripts": {
     "build": "npm -prefix front-end run build",
@@ -17,6 +17,6 @@
     "start:dev": "npx concurrently \"npm run start:dev --prefix ./back-end\" \"npm start --prefix ./front-end\" "
   },
   "keywords": [],
-  "author": "Thinkful, Inc.",
+  "author": "Mohit kumar",
   "license": "UNLICENSED"
 }
