@@ -54,9 +54,9 @@ function SeatReservation() {
         <h2>Select Table</h2>
         <ErrorAlert error={tableError} />
         <div className="row">
-          <div class="form-group col-md-4">
+          <div className="form-group col-md-4">
             <select
-              class="form-control"
+              className="form-control"
               name="table_id"
               onChange={handleChange}
               value={tableId}
@@ -85,7 +85,7 @@ function SeatReservation() {
       </div>
     );
   } else {
-    return null;
+    return <p>No Table is Created.</p>;
   }
 }
 

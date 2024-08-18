@@ -1,8 +1,9 @@
 const path = require("path");
 
-require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
 const express = require("express");
+const cookieParser = require("cookie-parser");
+
 const cors = require("cors");
 
 const errorHandler = require("./errors/errorHandler");
@@ -10,11 +11,26 @@ const notFound = require("./errors/notFound");
 const reservationsRouter = require("./reservations/reservations.router");
 const tablesRouter = require("./tables/tables.router");
 const searchRouter = require("./search/search.router");
+const authRouter = require("./auth/auth.router");
+
+const restrictToLoggedInUser = require("./middleware/restrictToLoggedInUser.js");
 
 const app = express();
 
-app.use(cors());
+
+// app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Frontend URL
+    credentials: true, // Allow credentials (cookies)
+  })
+);
 app.use(express.json());
+app.use(cookieParser());
+
+app.use("/auth", authRouter);
+
+app.use(restrictToLoggedInUser);
 
 app.use("/reservations", reservationsRouter);
 app.use("/tables", tablesRouter);
