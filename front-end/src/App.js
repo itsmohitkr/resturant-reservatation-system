@@ -1,20 +1,29 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { useContext } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Layout from "./layout/Layout";
 import LoginPage from "./AuthPage/LoginPage";
 import SignupPage from "./AuthPage/SignupPage";
+import { AuthContext } from "./Context/AuthContext";
 
 function App() {
+  const { authState } = useContext(AuthContext);
+  
+ console.log("App render, authState:", authState);
+
+if (authState.isLoading) {
+  // Show a loading indicator while verifying the token
+  return <div>Loading...</div>;
+}
   return (
     <Switch>
-      <Route exact={true} path="/auth/login">
-        <LoginPage />
+      <Route exact path="/auth/login">
+        {authState.isAuthenticated ? <Redirect to="/" /> : <LoginPage />}
       </Route>
-      <Route exact={true} path="/auth/signup">
-        <SignupPage />
+      <Route exact path="/auth/signup">
+        {authState.isAuthenticated ? <Redirect to="/" /> : <SignupPage />}
       </Route>
       <Route path="/">
-        <Layout />
+        {authState.isAuthenticated ? <Layout /> : <Redirect to="/auth/login" />}
       </Route>
     </Switch>
   );

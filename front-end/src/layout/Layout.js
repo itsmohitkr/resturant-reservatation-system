@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import Menu from "./Menu";
 import Routes from "./Routes";
+import { AuthContext } from "../Context/AuthContext";
 import "./Layout.css";
 
 function Layout() {
-  // Assuming you have a way to get the current user's info
-  const user = {
-    name: "John Doe", // Replace with actual user data from context or props
-  };
+  const { authState, setAuthState } = useContext(AuthContext);
+  const history = useHistory();
 
-  const handleLogout = () => {
-    // Add your logout logic here (e.g., clearing cookies, redirecting to login page)
-    console.log("User logged out");
+  const handleLogout = async () => {
+    await fetch("http://localhost:5001/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    setAuthState({ isAuthenticated: false, user: null });
+    history.push("/auth/login");
   };
 
   return (
@@ -23,13 +27,17 @@ function Layout() {
         <div className="col">
           <div className="row align-items-center py-3 bg-light">
             <div className="col text-right">
-              <span className="mr-3">Welcome, {user.name}</span>
-              <button
-                className="btn btn-outline-primary"
-                onClick={handleLogout}
-              >
-                Sign out
-              </button>
+              <span className="mr-3">
+                Welcome, {authState.user ? authState.user : "Guest"}
+              </span>
+              {authState.isAuthenticated && (
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={handleLogout}
+                >
+                  Sign out
+                </button>
+              )}
             </div>
           </div>
           <Routes />

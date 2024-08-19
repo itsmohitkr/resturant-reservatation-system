@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext";
 
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory(); // Hook to navigate programmatically
+  const { setAuthState } = useContext(AuthContext); // Get setAuthState from context
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,11 +25,18 @@ function LoginPage() {
           },
         }),
       });
-      
+
       if (response.ok) {
         const data = await response.json();
-        // Handle successful login        
-        history.push("/");
+        // Handle successful login
+        console.log(data.data.data.full_name);
+        
+        setAuthState({
+          isAuthenticated: true,
+          user: data.data.data.email, // Assuming the response contains user data
+          isLoading: false,
+        });
+        // history.push("/");
         console.log("Login successful", data);
       } else {
         // Handle login error
