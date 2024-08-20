@@ -22,10 +22,17 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: [
-      "https://resturant-reservatation.onrender.com",
-      "https://resturant-reservatation-system.onrender.com",
-    ],
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "https://resturant-reservatation.onrender.com",
+        "https://resturant-reservatation-system.onrender.com",
+      ];
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   })
 );
 app.use(express.json());
