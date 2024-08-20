@@ -27,7 +27,8 @@
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "test:frontend": "react-scripts test --env=jsdom"
   },
   "eslintConfig": {
     "extends": [
