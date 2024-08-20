@@ -21,8 +21,11 @@ const app = express();
 // app.use(cors());
 app.use(
   cors({
-    origin: "https://resturant-reservatation.onrender.com", // Frontend URL
-    credentials: true, // Allow credentials (cookies)
+    credentials: true,
+    origin: [
+      "https://resturant-reservatation.onrender.com",
+      "https://resturant-reservatation-system.onrender.com",
+    ],
   })
 );
 app.use(express.json());
