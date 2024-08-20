@@ -1,10 +1,10 @@
 const knex = require("../db/connection");
 
 const tableName = "reservations";
-function listByMobileNumber(mobile_number) {
+function listByMobileNumber(mobile_number,user_id) {
   return knex(tableName)
     .select("*")
-    .where({ mobile_number: mobile_number })
+    .where({user_id, mobile_number: mobile_number })
     .orderBy("reservation_time");
 }
 

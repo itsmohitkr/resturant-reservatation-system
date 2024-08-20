@@ -7,13 +7,11 @@ import { AuthContext } from "./Context/AuthContext";
 
 function App() {
   const { authState } = useContext(AuthContext);
-  
- console.log("App render, authState:", authState);
 
-if (authState.isLoading) {
-  // Show a loading indicator while verifying the token
-  return <div>Loading...</div>;
-}
+  if (authState.isLoading) {
+    // Show a loading indicator while verifying the token
+    return <div>Loading...</div>;
+  }
   return (
     <Switch>
       <Route exact path="/auth/login">

@@ -1,9 +1,7 @@
 const axios = require("axios");
 
 async function restrictToLoggedInUser(req, res, next) {
-  const token = req.cookies?.token; // assuming your token is stored in a cookie named 'token'
-  console.log("called");
-  
+  const token = req.cookies?.token; // assuming your token is stored in a cookie named 'token' 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized: No token provided" });
   }

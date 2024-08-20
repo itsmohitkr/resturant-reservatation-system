@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }) => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data.data.user.email);
 
           setAuthState({
             isAuthenticated: true,

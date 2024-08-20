@@ -9,12 +9,18 @@ const hasRequiredProperties = hasProperties("first_name", "last_name", "mobile_n
 
 async function list(req, res) {
   const { date } = req.query;
-  const data = await service.list(date);
+  const user_id = req.user.id;
+  const data = await service.list(date, user_id);
   res.json({ data });
 }
 
- async function create(req, res) {
-   const data = await service.create(req.body.data);
+async function create(req, res) {
+  const tokenData = req.user;
+  const finalData = {
+    ...req.body.data,
+    user_id:tokenData.id
+  }  
+   const data = await service.create(finalData);
    res.status(201).json({ data });
  }
 
@@ -85,8 +91,9 @@ function isValidPeople(req, res, next) {
 }
 
 async function isReservationExist(req, res, next) {
-  const { reservation_id={} } = req.params;
-  const reservationFound = await service.read(reservation_id);
+  const { reservation_id = {} } = req.params;
+  const user_id = req.user.id;
+  const reservationFound = await service.read(reservation_id, user_id);
   if (reservationFound) {
     res.locals.reservationFound = reservationFound;
     next();
@@ -120,13 +127,14 @@ function read(req, res, next) {
   res.json({ data });
 }
 
-async function update(req,res,next) {
+async function update(req, res, next) {
+  const user_id = req.user.id;
     const updatedReservation = {
       ...req.body.data,
       reservation_id:res.locals.reservationFound.reservation_id
     };
   
-  res.json({ data: await service.update(updatedReservation) });
+  res.json({ data: await service.update(updatedReservation,user_id) });
 }
 
 async function updateStatus(req, res, next) {

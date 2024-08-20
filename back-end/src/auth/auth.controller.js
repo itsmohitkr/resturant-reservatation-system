@@ -55,9 +55,7 @@ const login = async (req, res,next) => {
 
 const signup = async (req, res,next) => {
   try {
-    const { full_name,email, password } = req.body.data;
-    console.log(req.body.data);
-    
+    const { full_name,email, password } = req.body.data;    
     const response = await axios.post(
       `${AUTH_SERVICE_URL}/signup`,
       {
