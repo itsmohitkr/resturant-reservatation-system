@@ -9,18 +9,25 @@ const hasRequiredProperties = hasProperties(
 );
 
 async function list(req, res) {
-  const data = await service.list();
+  const user_id = req.user.id;
+  const data = await service.list(user_id);
   res.json({ data });
 }
 
- async function create(req, res) {
-   const data = await service.create(req.body.data);
+async function create(req, res) {
+  const user_id = req.user.id;
+  const finalData = {
+    ...req.body.data,
+    user_id: user_id,
+  };
+   const data = await service.create(finalData);
    res.status(201).json({ data });
  }
 
 async function hasValidTableId(req, res, next) {
-  const { table_id={} } = req.params;
-  const tableFound = await service.read(table_id);
+  const { table_id = {} } = req.params;
+  const user_id = req.user.id;
+  const tableFound = await service.read(table_id,user_id);
   if (tableFound) {
     res.locals.tableFound = tableFound;
     next();
@@ -45,7 +52,8 @@ function bodyHasValidData(req, res, next) {
 }
 async function isReservationExists(req, res, next) {
   const { reservation_id = {} } = req.body.data;
-  const reservationFound = await reservationService.read(reservation_id);
+  const user_id = req.user.id;
+  const reservationFound = await reservationService.read(reservation_id,user_id);
   if (reservationFound) {
     res.locals.reservationFound = reservationFound;
     next();
@@ -90,18 +98,20 @@ async function vacantTable(req, res, next) {
     reservation_id: null
   };
   const { reservation_id } = res.locals.tableFound;
-  const reservationTObeUpdated = await reservationService.read(reservation_id);
+  const user_id = req.user.id;
+  const reservationTObeUpdated = await reservationService.read(reservation_id,user_id);
   const updatedReservation = {
     ...reservationTObeUpdated,
     status: "finished",
   };
   // await service.update(updatedTable);
-  await service.seat(updatedTable, updatedReservation);
+  await service.seat(updatedTable, updatedReservation,user_id);
   res.status(200).json({ message: "Table is vacant and reservation status is set to finished" });
 }
 
 async function seat(req, res, next) {
-  const { reservation_id={} } = req.body.data;
+  const { reservation_id = {} } = req.body.data;
+  const user_id = req.user.id;
   const updatedReservation = {
     ...res.locals.reservationFound,
     status: "seated",
@@ -110,7 +120,7 @@ async function seat(req, res, next) {
     ...res.locals.tableFound,
     reservation_id: reservation_id
   };
-  await service.seat(updatedTable, updatedReservation);
+  await service.seat(updatedTable, updatedReservation, user_id);
   // await service.update(updatedTable);
   // await reservationService.update(updatedReservation);
   res.status(200).json({ message: "Seat updated successfully" });

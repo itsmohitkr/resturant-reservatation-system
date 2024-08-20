@@ -63,7 +63,7 @@ export async function listReservations(params, signal) {
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
-  return await fetchJson(url, { headers, signal }, [])
+  return await fetchJson(url, { headers, signal, credentials: "include" }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
@@ -73,21 +73,21 @@ export async function listReservationsByMobileNumber(params, signal) {
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
-  return await fetchJson(url, { headers, signal }, [])
+  return await fetchJson(url, { headers, credentials: "include", signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
 
-
 export async function createReservation(params, signal) {
   const url = `${API_BASE_URL}/reservations`;
-   const options = {
-     method: "POST",
-     headers,
-     body: JSON.stringify({ data: params }),
-     signal,
-   };
-   return await fetchJson(url, options, {});
+  const options = {
+    method: "POST",
+    headers,
+    credentials: "include",
+    body: JSON.stringify({ data: params }),
+    signal,
+  };
+  return await fetchJson(url, options, {});
 }
 
 export async function createTable(params, signal) {
@@ -95,6 +95,7 @@ export async function createTable(params, signal) {
   const options = {
     method: "POST",
     headers,
+    credentials: "include",
     body: JSON.stringify({ data: params }),
     signal,
   };
@@ -103,7 +104,7 @@ export async function createTable(params, signal) {
 
 export async function listTable(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
-  return await fetchJson(url, {signal }, [])
+  return await fetchJson(url, { signal, credentials: "include" }, []);
 }
 
 export async function assignReservationToTable(table_id, reservation_id) {
@@ -111,27 +112,29 @@ export async function assignReservationToTable(table_id, reservation_id) {
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({ data: {reservation_id:reservation_id} }),
-    
+    credentials: "include",
+    body: JSON.stringify({ data: { reservation_id: reservation_id } }),
   };
   return await fetchJson(url, options, { reservation_id });
 }
 
-export async function editReservation(formData,reservation_id) {
+export async function editReservation(formData, reservation_id) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}/edit`;
   const options = {
     method: "PUT",
     headers,
+    credentials: "include",
     body: JSON.stringify({ data: formData }),
   };
   return await fetchJson(url, options, { reservation_id });
 }
 
-export async function upadteReservationStatus( reservation_id) {
+export async function upadteReservationStatus(reservation_id) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
   const options = {
     method: "PUT",
     headers,
+    credentials: "include",
     body: JSON.stringify({ data: { status: "cancelled" } }),
   };
   return await fetchJson(url, options, { reservation_id });
@@ -142,17 +145,19 @@ export async function readReservations(reservation_id, signal) {
   const options = {
     method: "GET",
     headers,
-    signal
+    credentials: "include",
+    signal,
   };
   return await fetchJson(url, options, { reservation_id })
-  .then(formatReservationDate)
+    .then(formatReservationDate)
     .then(formatReservationTime);
 }
 
 export async function vacantTable(table_id) {
- const url = `${API_BASE_URL}/tables/${table_id}/seat`;
- const options = {
-   method: "DELETE",
- };
- return await fetchJson(url, options);
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  const options = {
+    method: "DELETE",
+    credentials: "include",
+  };
+  return await fetchJson(url, options);
 }
