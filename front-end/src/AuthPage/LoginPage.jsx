@@ -1,11 +1,14 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
+import ErrorAlert from "../layout/ErrorAlert";
 
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState(null);
+  
   const history = useHistory(); // Hook to navigate programmatically
   const { setAuthState } = useContext(AuthContext); // Get setAuthState from context
 
@@ -39,9 +42,9 @@ function LoginPage() {
         // history.push("/");
         console.log("Login successful", data);
       } else {
-        // Handle login error
-        history.push("/auth/signup");
-        console.error("Login failed");
+        const errorData = await response.json();
+        console.log("Login failed", errorData.error);
+        setLoginError({ message: errorData.error });
       }
     } catch (error) {
       console.error("Error:", error);
@@ -62,6 +65,7 @@ function LoginPage() {
           onSubmit={handleSubmit}
         >
           <h3 className="text-center mb-4">Login</h3>
+          <ErrorAlert error={loginError} />
           <hr></hr>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">

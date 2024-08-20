@@ -1,9 +1,10 @@
 const axios = require("axios");
+const { response } = require("../app");
 
 // Define the base URL for the authentication microservices
 const { AUTH_SERVICE_URL } = process.env;
 
-const login = async (req, res) => {
+const login = async (req, res,next) => {
   try {
     const { email, password } = req.body.data;
     const response = await axios.post(
@@ -38,22 +39,30 @@ const login = async (req, res) => {
 
     res.status(200).json({ message: "Login successful", data: response.data });
   } catch (error) {
-    // Handle login failure
-    res.status(401).json({
-      message: "Login failed",
-      error: error.response?.data || error.message,
-    });
+    if (error.response) {
+      return next({
+        status: error.response.status,
+        message: error.response.data.error || error.response.data.message,
+      });
+    } else {
+      return next({
+        status: 500,
+        message: "Internal Server Error",
+      });
+    }
   }
 };
 
-const signup = async (req, res) => {
+const signup = async (req, res,next) => {
   try {
-    const { email, password } = req.body.data;
-
+    const { full_name,email, password } = req.body.data;
+    console.log(req.body.data);
+    
     const response = await axios.post(
       `${AUTH_SERVICE_URL}/signup`,
       {
         data: {
+          full_name,
           email,
           password,
         },
@@ -67,9 +76,13 @@ const signup = async (req, res) => {
     res.status(201).json({ message: "Signup successful", data: response.data });
   } catch (error) {
     // Handle signup failure
-    res.status(400).json({
-      message: "Signup failed",
-      error: error.response?.data || error.message,
+    const statusCode = error.response?.status || 400;
+    const errorMessage =
+      error.response?.data?.error || error.message || "Signup failed";
+
+    return next({
+      status: statusCode,
+      message: errorMessage,
     });
   }
 };
