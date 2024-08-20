@@ -21,7 +21,7 @@ const app = express();
 // app.use(cors());
 app.use(
   cors({
-    origin: "http://localhost:3000", // Frontend URL
+    origin: "https://resturant-reservatation.onrender.com", // Frontend URL
     credentials: true, // Allow credentials (cookies)
   })
 );
