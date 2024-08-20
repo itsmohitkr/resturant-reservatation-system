@@ -23,9 +23,10 @@ app.use(
   cors({
     origin: [
       "https://resturant-reservatation.onrender.com",
+      "https://resturant-reservatation-system.onrender.com",
       "http://localhost:3000",
     ],
-    credentials: true, 
+    credentials: true,
   })
 );
 app.use(express.json());
