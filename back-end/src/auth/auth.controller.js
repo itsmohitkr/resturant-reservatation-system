@@ -29,7 +29,11 @@ const login = async (req, res,next) => {
       if (tokenCookie) {
         const tokenValue = tokenCookie.split(";")[0].split("=")[1];
         console.log("tokenValue: ", tokenValue);
-        res.cookie("token", tokenValue);
+        res.cookie("token", tokenValue, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production", // true if NODE_ENV is 'production'
+          sameSite: "None", // Required for cross-origin cookies
+        });
       } else {
         console.log("No 'token' cookie found in 'set-cookie' header");
       }
