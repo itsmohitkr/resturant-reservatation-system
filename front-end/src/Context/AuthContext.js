@@ -20,10 +20,9 @@ export const AuthProvider = ({ children }) => {
 
         if (response.ok) {
           const data = await response.json();
-
           setAuthState({
             isAuthenticated: true,
-            user: data.data.user.email,
+            user: data.data.user.full_name,
             isLoading: false,
           });
         } else {

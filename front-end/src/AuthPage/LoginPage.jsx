@@ -36,7 +36,7 @@ function LoginPage() {
         
         setAuthState({
           isAuthenticated: true,
-          user: data.data.data.email, // Assuming the response contains user data
+          user: data.data.data.full_name, // Assuming the response contains user data
           isLoading: false,
         });
         // history.push("/");

@@ -8,10 +8,16 @@ import { AuthContext } from "./Context/AuthContext";
 function App() {
   const { authState } = useContext(AuthContext);
 
-  if (authState.isLoading) {
-    // Show a loading indicator while verifying the token
-    return <div>Loading...</div>;
-  }
+ if (authState.isLoading) {
+   // Show a Bootstrap spinner while verifying the token
+   return (
+     <div className="d-flex justify-content-center align-items-center vh-100">
+       <div className="spinner-border" role="status">
+         <span className="visually-hidden"></span>
+       </div>
+     </div>
+   );
+ }
   return (
     <Switch>
       <Route exact path="/auth/login">
