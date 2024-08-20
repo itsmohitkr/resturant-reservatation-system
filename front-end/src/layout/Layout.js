@@ -10,7 +10,7 @@ function Layout() {
   const history = useHistory();
 
   const handleLogout = async () => {
-    await fetch("http://localhost:5001/auth/logout", {
+    await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/logout`, {
       method: "POST",
       credentials: "include",
     });

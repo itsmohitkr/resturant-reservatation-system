@@ -13,10 +13,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        const response = await fetch("http://localhost:5001/auth/verify", {
-          method: "GET",
-          credentials: "include", // Ensure cookies are sent with the request
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_API_BASE_URL}/auth/verify`,
+          {
+            method: "GET",
+            credentials: "include", // Ensure cookies are sent with the request
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
