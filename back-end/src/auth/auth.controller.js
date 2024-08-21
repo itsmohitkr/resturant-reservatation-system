@@ -31,8 +31,8 @@ const login = async (req, res,next) => {
         console.log("tokenValue: ", tokenValue);
         res.cookie("token", tokenValue, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production", // true if NODE_ENV is 'production'
-          sameSite: "None", // Required for cross-origin cookies
+          secure: process.env.NODE_ENV === "production" ? true : false, // true if NODE_ENV is 'production'
+          sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Required for cross-origin cookies
         });
       } else {
         console.log("No 'token' cookie found in 'set-cookie' header");
@@ -150,13 +150,13 @@ const forgotPassword = async (req, res) => {
 
 const resetPassword = async (req, res) => {
   try {
-    const { token, newPassword } = req.body.data;
+    const { newPassword } = req.body.data;
+    const { token } = req.query;
 
     const response = await axios.post(
-      `${AUTH_SERVICE_URL}/reset-password`,
+      `${AUTH_SERVICE_URL}/reset-password/?token=${token}`,
       {
         data: {
-          token,
           newPassword,
         },
       },
