@@ -1,15 +1,12 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import ErrorAlert from "../layout/ErrorAlert";
-
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(null);
-  
-  const history = useHistory(); // Hook to navigate programmatically
   const { setAuthState } = useContext(AuthContext); // Get setAuthState from context
 
   const handleSubmit = async (e) => {
@@ -54,10 +51,6 @@ function LoginPage() {
     }
   };
 
-  const handleSignUpClick = () => {
-    history.push("/auth/signup"); // Navigate to the sign-up page
-  };
-
   return (
     <div className="d-flex flex-column align-items-center vh-100">
       <h2 className="text-center mt-4">Restaurant Reservation System</h2>
@@ -97,23 +90,19 @@ function LoginPage() {
             />
           </div>
 
-          <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-secondary">
-              Cancel
-            </button>
+          <div className="d-flex justify-content-between mb-3">
+            <Link to="/auth/forgot-password" className="btn btn-link">
+              Forgot password
+            </Link>
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
           </div>
-          <div className="mt-3 text-center">
-            <span>New user? </span>
-            <button
-              type="button"
-              className="btn btn-link"
-              onClick={handleSignUpClick}
-            >
+          <div className="mt-4 text-center">
+            <span>Don't have an account? </span>
+            <Link to="/auth/signup" className="btn btn-link">
               Sign Up
-            </button>
+            </Link>
           </div>
         </form>
       </div>
