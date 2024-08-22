@@ -90,7 +90,11 @@ const signup = async (req, res,next) => {
 };
 
 const logout = async (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+  });
   res.status(200).send("Logged out");
 };
 
