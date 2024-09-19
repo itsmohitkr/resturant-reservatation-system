@@ -139,12 +139,11 @@ async function update(req, res, next) {
 
 async function updateStatus(req, res, next) {
   const { status } = req.body.data;
-  const user_id = req.user.id;
   const updatedReservation = {
     ...res.locals.reservationFound,
     status: status,
   };
-  await service.update(updatedReservation, user_id);
+  await service.update(updatedReservation);
   res.status(200).json({ message: "Status updated to cancelled" });
 }
 

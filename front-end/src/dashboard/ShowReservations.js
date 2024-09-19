@@ -34,29 +34,27 @@ function ShowReservations({ reservations, currentdate }) {
               <div>
                 {reservation.status !== "seated" ? (
                   <Link to={`/reservations/${reservation.reservation_id}/seat`}>
-                    <button type="button" className="btn btn-sm btn-success ">
+                    <button type="button" className="btn btn-success ">
                       Seat
                     </button>
                   </Link>
                 ) : null}
 
                 <Link to={`/reservations/${reservation.reservation_id}/edit`}>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-secondary mx-2 "
-                  >
+                  <button type="button" className="btn btn-secondary mx-2 ">
                     Edit
                   </button>
                 </Link>
-
-                <button
-                  type="button"
-                  className="btn btn-sm btn-danger "
-                  data-reservation-id-cancel={reservation.reservation_id}
-                  onClick={() => cancelHandler(reservation.reservation_id)}
-                >
-                  Cancel
-                </button>
+                
+                  <button
+                    type="button"
+                    className="btn btn-danger "
+                    data-reservation-id-cancel={reservation.reservation_id}
+                    onClick={()=>cancelHandler(reservation.reservation_id)}
+                  >
+                    Cancel
+                  </button>
+                
               </div>
             </td>
           </tr>
