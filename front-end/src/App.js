@@ -6,7 +6,7 @@ import SignupPage from "./AuthPage/SignupPage";
 import { AuthContext } from "./Context/AuthContext";
 import ForgotPasswordPage from "./AuthPage/ForgotPasswordPage";
 import ResetPasswordPage from "./AuthPage/ResetPasswordPage";
-import "./App.css";
+
 function App() {
   const { authState } = useContext(AuthContext);
 
