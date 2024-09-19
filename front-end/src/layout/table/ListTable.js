@@ -43,7 +43,7 @@ function ListTable() {
           <td style={{ width: "30%" }}>
             {table.reservation_id == null ? (
               <div
-                className="p-1 mb-1 bg-success text-white col-3 text-center rounded"
+                className="p-1 mb-1 bg-success text-white col-4 text-center rounded"
                 data-table-id-status={table.table_id}
               >
                 Free
@@ -51,7 +51,7 @@ function ListTable() {
             ) : (
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div
-                  className="p-1 mb-1 bg-secondary text-white col-3 text-center rounded"
+                  className="p-1 mb-1 bg-secondary text-white col-4 text-center rounded"
                   data-table-id-status={table.table_id}
                 >
                   Occupied

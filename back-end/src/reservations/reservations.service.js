@@ -7,20 +7,27 @@ function create(reservation) {
     .returning("*")
     .then((created) => created[0]);
 }
-  function list(date,user_id) {
+function list(date, user_id) {
+  if (!date) {
     return knex(tableName)
       .select("*")
-      .where({ user_id: user_id,reservation_date: date})
+      .where({ user_id: user_id })
+      .orderBy("reservation_time");
+  } else {
+    return knex(tableName)
+      .select("*")
+      .where({ user_id: user_id, reservation_date: date })
       .orderBy("reservation_time");
   }
+}
 function read(reservation_id, user_id) {
   return knex(tableName).select("*").where({ user_id,reservation_id }).first();
 }
 
-function update(updatedReservation,user_id) {
+function update(updatedReservation, user_id) {  
   return knex(tableName)
     .select("*")
-    .where({user_id, reservation_id: updatedReservation.reservation_id })
+    .where({ user_id, reservation_id: updatedReservation.reservation_id })
     .update(updatedReservation, "*")
     .then((updatedRecords) => updatedRecords[0]);
 }
