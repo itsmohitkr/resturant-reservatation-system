@@ -85,9 +85,7 @@ module.exports = {
   production: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection:
-      DATABASE_URL_PRODUCTION,
-    },
+    connection: DATABASE_URL_PRODUCTION,
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
