@@ -42,15 +42,9 @@ module.exports = {
   production: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: {
-      host: DATABASE_URL_PRODUCTION,
-      port: 5432,
-      user: USER_NAME,
-      password: DATABASE_PASSWORD,
-      database: DATABASE_NAME,
-      ssl: {
-        rejectUnauthorized: false, // Skip certificate validation
-      },
+    connection: DATABASE_URL_PRODUCTION, // Use full URL string
+    ssl: {
+      rejectUnauthorized: false, // Ensure this is true for RDS
     },
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
