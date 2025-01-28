@@ -15,6 +15,7 @@ const {
   DATABASE_NAME,
   DEBUG,
 } = process.env;
+console.log(DATABASE_URL_PRODUCTION);
 
 module.exports = {
   development: {
@@ -58,6 +59,6 @@ module.exports = {
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
-    debug: false,
+    debug: true,
   },
 };
